@@ -39,7 +39,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Npy-b3-V7R">
-                                <rect key="frame" x="0.0" y="201.5" width="414" height="594.5"/>
+                                <rect key="frame" x="0.0" y="201.5" width="414" height="578.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="rpT-sW-3q1" id="WwP-4n-fYr"/>
@@ -47,7 +47,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9yK-G3-J2D">
-                                <rect key="frame" x="0.0" y="796" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="780" width="414" height="116"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-qO-HDb">
                                         <rect key="frame" x="16" y="16" width="382" height="20.5"/>
@@ -67,7 +67,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8g-aD-NSJ">
-                                        <rect key="frame" x="16" y="52.5" width="382" height="31.5"/>
+                                        <rect key="frame" x="16" y="52.5" width="382" height="47.5"/>
                                         <color key="backgroundColor" name="Orange#FF8300"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <state key="normal" title="Start">
@@ -78,7 +78,7 @@
                                 <color key="backgroundColor" name="Gray#F5F5F5"/>
                                 <constraints>
                                     <constraint firstItem="C8e-qO-HDb" firstAttribute="leading" secondItem="9yK-G3-J2D" secondAttribute="leading" constant="16" id="5Vv-VE-5gX"/>
-                                    <constraint firstAttribute="height" constant="100" id="AEs-0f-iBw"/>
+                                    <constraint firstAttribute="height" constant="116" id="AEs-0f-iBw"/>
                                     <constraint firstAttribute="trailing" secondItem="v8g-aD-NSJ" secondAttribute="trailing" constant="16" id="Ehp-hq-8tw"/>
                                     <constraint firstItem="v8g-aD-NSJ" firstAttribute="top" secondItem="C8e-qO-HDb" secondAttribute="bottom" constant="16" id="RH5-x4-Id8"/>
                                     <constraint firstItem="v8g-aD-NSJ" firstAttribute="leading" secondItem="9yK-G3-J2D" secondAttribute="leading" constant="16" id="VhP-TA-Iui"/>

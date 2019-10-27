@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD9444C623664E3B00D2F65C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C523664E3B00D2F65C /* Service.swift */; };
+		FD9444C823664E8900D2F65C /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C723664E8900D2F65C /* Quiz.swift */; };
+		FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C92366520600D2F65C /* WordQuizViewModel.swift */; };
+		FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */; };
+		FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */; };
+		FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */; };
 		FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */; };
 		FDD8DF1C236628CE0017F6E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD8DF1B236628CE0017F6E2 /* ViewController.swift */; };
 		FDD8DF1F236628CE0017F6E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD8DF1D236628CE0017F6E2 /* Main.storyboard */; };
@@ -34,6 +40,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD9444C523664E3B00D2F65C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		FD9444C723664E8900D2F65C /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		FD9444C92366520600D2F65C /* WordQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQuizViewModel.swift; sourceTree = "<group>"; };
+		FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewCell.swift; sourceTree = "<group>"; };
+		FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordsTableViewCell.xib; sourceTree = "<group>"; };
+		FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableViewCell + Extension.swift"; sourceTree = "<group>"; };
 		FDD8DF16236628CE0017F6E2 /* Quiz Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quiz Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDD8DF1B236628CE0017F6E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +86,91 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD9444BD23664CF500D2F65C /* Word Quiz */ = {
+			isa = PBXGroup;
+			children = (
+				FD9444BE23664D5400D2F65C /* Model */,
+				FD9444BF23664D5F00D2F65C /* View */,
+				FD9444C023664D6400D2F65C /* ViewModel */,
+			);
+			path = "Word Quiz";
+			sourceTree = "<group>";
+		};
+		FD9444BE23664D5400D2F65C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FD9444C723664E8900D2F65C /* Quiz.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FD9444BF23664D5F00D2F65C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FDD8DF1B236628CE0017F6E2 /* ViewController.swift */,
+				FD9444C323664D9400D2F65C /* Xib */,
+				FDD8DF1D236628CE0017F6E2 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FD9444C023664D6400D2F65C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FD9444C92366520600D2F65C /* WordQuizViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		FD9444C123664D7800D2F65C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				FD9444C523664E3B00D2F65C /* Service.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		FD9444C223664D7F00D2F65C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FD9444C323664D9400D2F65C /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Xib;
+			sourceTree = "<group>";
+		};
+		FD9444C423664DA800D2F65C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				FDD8DF20236628D60017F6E2 /* Assets.xcassets */,
+				FDD8DF22236628D60017F6E2 /* LaunchScreen.storyboard */,
+			);
+			path = "Support Files";
+			sourceTree = "<group>";
+		};
+		FDC31F3C23665586008B5B9B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				FDC31F3D2366558E008B5B9B /* Cells */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		FDC31F3D2366558E008B5B9B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */,
+				FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		FDD8DF0D236628CE0017F6E2 = {
 			isa = PBXGroup;
 			children = (
@@ -97,12 +194,13 @@
 		FDD8DF18236628CE0017F6E2 /* Quiz Challenge */ = {
 			isa = PBXGroup;
 			children = (
+				FDC31F3C23665586008B5B9B /* Components */,
 				FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */,
-				FDD8DF1B236628CE0017F6E2 /* ViewController.swift */,
-				FDD8DF1D236628CE0017F6E2 /* Main.storyboard */,
-				FDD8DF20236628D60017F6E2 /* Assets.xcassets */,
-				FDD8DF22236628D60017F6E2 /* LaunchScreen.storyboard */,
 				FDD8DF25236628D60017F6E2 /* Info.plist */,
+				FD9444C423664DA800D2F65C /* Support Files */,
+				FD9444C223664D7F00D2F65C /* Extensions */,
+				FD9444C123664D7800D2F65C /* Networking */,
+				FD9444BD23664CF500D2F65C /* Word Quiz */,
 			);
 			path = "Quiz Challenge";
 			sourceTree = "<group>";
@@ -230,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD8DF24236628D60017F6E2 /* LaunchScreen.storyboard in Resources */,
+				FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */,
 				FDD8DF21236628D60017F6E2 /* Assets.xcassets in Resources */,
 				FDD8DF1F236628CE0017F6E2 /* Main.storyboard in Resources */,
 			);
@@ -257,7 +356,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD8DF1C236628CE0017F6E2 /* ViewController.swift in Sources */,
+				FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */,
 				FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */,
+				FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */,
+				FD9444C823664E8900D2F65C /* Quiz.swift in Sources */,
+				FD9444C623664E3B00D2F65C /* Service.swift in Sources */,
+				FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
