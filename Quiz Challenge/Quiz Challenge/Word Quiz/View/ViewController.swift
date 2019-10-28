@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         
         tableView.tableFooterView = UIView()
         
-        tableView.register(UINib(nibName: String(describing: WordsTableViewCell.self), bundle: Bundle.main), forCellReuseIdentifier: String(describing: WordsTableViewCell.self))
+        tableView.register(cellType: WordsTableViewCell.self)
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -62,10 +62,7 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: WordsTableViewCell.self), for: indexPath) as? WordsTableViewCell else
-        {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeeReusableCell(with: WordsTableViewCell.self, for: indexPath)
         
         cell.word = viewModel.words?[indexPath.row] ?? "--"
         
