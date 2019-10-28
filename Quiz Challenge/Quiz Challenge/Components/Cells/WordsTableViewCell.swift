@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WordsTableViewCell: UITableViewCell {
+class WordsTableViewCell: UITableViewCell, CellIdentifieable {
 
     @IBOutlet private weak var wordLabel: UILabel!
     
