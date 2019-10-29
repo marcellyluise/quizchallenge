@@ -14,7 +14,7 @@
 		FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */; };
 		FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */; };
 		FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */; };
-		FDD8DF1C236628CE0017F6E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD8DF1B236628CE0017F6E2 /* ViewController.swift */; };
+		FDD8DF1C236628CE0017F6E2 /* WordQuizController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD8DF1B236628CE0017F6E2 /* WordQuizController.swift */; };
 		FDD8DF1F236628CE0017F6E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD8DF1D236628CE0017F6E2 /* Main.storyboard */; };
 		FDD8DF21236628D60017F6E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD8DF20236628D60017F6E2 /* Assets.xcassets */; };
 		FDD8DF24236628D60017F6E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD8DF22236628D60017F6E2 /* LaunchScreen.storyboard */; };
@@ -48,7 +48,7 @@
 		FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableViewCell + Extension.swift"; sourceTree = "<group>"; };
 		FDD8DF16236628CE0017F6E2 /* Quiz Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quiz Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FDD8DF1B236628CE0017F6E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FDD8DF1B236628CE0017F6E2 /* WordQuizController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQuizController.swift; sourceTree = "<group>"; };
 		FDD8DF1E236628CE0017F6E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FDD8DF20236628D60017F6E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDD8DF23236628D60017F6E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -107,9 +107,8 @@
 		FD9444BF23664D5F00D2F65C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FDD8DF1B236628CE0017F6E2 /* ViewController.swift */,
+				FDD8DF1B236628CE0017F6E2 /* WordQuizController.swift */,
 				FD9444C323664D9400D2F65C /* Xib */,
-				FDD8DF1D236628CE0017F6E2 /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -141,6 +140,7 @@
 		FD9444C323664D9400D2F65C /* Xib */ = {
 			isa = PBXGroup;
 			children = (
+				FDD8DF1D236628CE0017F6E2 /* Main.storyboard */,
 			);
 			path = Xib;
 			sourceTree = "<group>";
@@ -355,7 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDD8DF1C236628CE0017F6E2 /* ViewController.swift in Sources */,
+				FDD8DF1C236628CE0017F6E2 /* WordQuizController.swift in Sources */,
 				FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */,
 				FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */,
 				FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */,

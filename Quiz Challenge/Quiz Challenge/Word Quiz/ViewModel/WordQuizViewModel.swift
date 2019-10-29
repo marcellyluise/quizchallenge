@@ -24,12 +24,31 @@ class WordQuizViewModel {
         return quiz?.answer
     }
     
-    weak var delegate: WordQuizViewModelDelegate?
-    
-    init() {
-        self.fetchWordQuiz()
+    var counter: Int {
+        return answers.count
     }
     
+    private(set) var answers: [String] = []
+    
+    weak var delegate: WordQuizViewModelDelegate?
+    
+    init(delegate: WordQuizViewModelDelegate?) {
+        self.fetchWordQuiz()
+        self.delegate = delegate
+    }
+    
+}
+
+// MARK: - Business Rule
+extension WordQuizViewModel {
+    func addAnswer(with word: String?) {
+        
+        guard let word = word, word != "" else {
+            return
+        }
+        
+        answers.append(word)
+    }
 }
 
 // MARK: - Service
@@ -41,9 +60,9 @@ extension WordQuizViewModel {
         
         Service().fetchQuiz { (fetchedQuiz, error) in
             
-            self.delegate?.isLoading(isLoading: false)
-            
             self.quiz = fetchedQuiz
+            
+            self.delegate?.isLoading(isLoading: false)
         }
     }
     
