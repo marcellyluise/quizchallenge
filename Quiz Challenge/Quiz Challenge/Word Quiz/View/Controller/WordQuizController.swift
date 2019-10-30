@@ -53,8 +53,7 @@ class WordQuizController: UIViewController {
     }
     
     private func setupCounterAndTimerView() {
-        counterAndTimerView.delegate = self
-        counterAndTimerView.dataSource = self
+        
 
     }
 
@@ -79,6 +78,24 @@ class WordQuizController: UIViewController {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
+        }
+    }
+    
+    // MARK: Play Again
+    @objc private func playAgain() {
+        viewModel.playAgain()
+    }
+    
+    // MARK: Completed Quiz
+    private func showSuccessMessage() {
+        showAlert(with: "Congratulations", message: "Good job! You found all the answers on time. Keep up with the great work", actionTitle: "Play again", actionStyle: .cancel) { (action) in
+            self.playAgain()
+        }
+    }
+    // MARK: Did Not Finish Quiz
+    private func showDidNotFinishMessage() {
+        showAlert(with: "Time finished", message: "Sorry, time is up! You got \(viewModel.numberOfWordsTyped) out of \(viewModel.expectedNumberOfWords) answers.", actionTitle: "Try again", actionStyle: .cancel) { (action) in
+            self.playAgain()
         }
     }
 
@@ -146,6 +163,18 @@ extension WordQuizController: UITableViewDataSource {
 // MARK: - View Model
 
 extension WordQuizController: WordQuizViewModelDelegate {
+    func shoudResetTimer() {
+
+    }
+    
+    func didCompleteQuizOnTime() {
+      
+    }
+    
+    func shouldStartTimer() {
+        
+    }
+    
     
     // MARK: Setup
     private func setupViewModel() {
@@ -156,7 +185,8 @@ extension WordQuizController: WordQuizViewModelDelegate {
     func isLoading(isLoading: Bool) {
         DispatchQueue.main.async {
             self.questionLabel.text = self.viewModel.question
-            self.counterAndTimerView.reloadCounterAndTimerData()
+            let counterTimerViewModel = CounterAndTimerViewModel(numberOfExpectedWords: self.viewModel.expectedNumberOfWords, numberOfTypedWords: self.viewModel.numberOfWordsTyped)
+            self.counterAndTimerView.viewModel = counterTimerViewModel
             self.tableView.reloadData()
         }
     }
@@ -171,48 +201,10 @@ extension WordQuizController: UITextFieldDelegate {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.counterAndTimerView.reloadCounterAndTimerData()
             self.inputTextField.text = nil
         }
         
         return true
-    }
-    
-}
-
-// MARK: - Words Counter and Timer View
-
-extension WordQuizController: CounterAndTimerDataSource {
-
-    // MARK: Data Source
-    func numberOfTypedWords() -> Int {
-        return viewModel.numberOfWordsTyped
-    }
-    
-    func totalOfWords() -> Int {
-        return viewModel.expectedNumberOfWords
-    }
-    
-    func shouldStartTimer() -> Bool {
-        return viewModel.userDidBeginToType
-    }
-    
-    
-}
-
-// MARK: Delegate
-extension WordQuizController: CounterAndTimerViewDelegate {
-    func timerDidEnd() {
-        
-    }
-    
-    
-    func didTapStartTimer() {
-        
-    }
-    
-    func didTapResetTimer() {
-        
     }
     
 }

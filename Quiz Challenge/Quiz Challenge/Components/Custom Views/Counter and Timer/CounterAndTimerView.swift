@@ -8,18 +8,6 @@
 
 import UIKit
 
-protocol CounterAndTimerDataSource: class {
-    func numberOfTypedWords() -> Int
-    func totalOfWords() -> Int
-    func shouldStartTimer() -> Bool
-}
-
-protocol CounterAndTimerViewDelegate: class {
-    func didTapStartTimer()
-    func didTapResetTimer()
-    func timerDidEnd()
-}
-
 class CounterAndTimerView: XibLoader {
 
     @IBOutlet weak var startResetButton: UIButton!
@@ -30,84 +18,37 @@ class CounterAndTimerView: XibLoader {
         }
     }
     
-    private var timer: Timer?
-    private var gameLimit = Double.fiveMinutes
-    
-    weak var delegate: CounterAndTimerViewDelegate?
-    weak var dataSource: CounterAndTimerDataSource? {
+    var viewModel: CounterAndTimerViewModel? {
         didSet {
-            setupDataSource()
+            
+            viewModel?.delegate = self
+            updateUI()
+        }
+    }
+    
+    private func updateUI() {
+        DispatchQueue.main.async {
+            self.startResetButton.setTitle(self.viewModel?.buttonTitle, for: .normal)
+            self.wordsCounterLabel.text = self.viewModel?.wordsCounterText
+            self.countdownTimerLabel.text = self.viewModel?.coundownTimerText
+        }
+        
+    }
+    
+    private var buttonTitle: String? {
+        didSet {
+            startResetButton.setTitle(buttonTitle, for: .normal)
         }
     }
 
-    private var numberOfTypedWords: Int {
-        return dataSource?.numberOfTypedWords() ?? 0
-    }
-    
-    private var totalOfWords: Int {
-        return dataSource?.totalOfWords() ?? 0
-    }
-    
     @IBAction func startResetTimer(sender: UIButton) {
-        handlerTimer()
-    }
-    
-    private func setupDataSource() {
-        wordsCounterLabel.text = "\(numberOfTypedWords)/\(totalOfWords)"
-        
-        if let shouldStartTime = dataSource?.shouldStartTimer(), shouldStartTime {
-            startTimer()
-        }
-        
-    }
-    
-    func reloadCounterAndTimerData() {
-        setupDataSource()
-    }
- 
-    private func handlerTimer() {
-        if timer == nil {
-            startTimer()
-        } else {
-            resetTimer()
-        }
-    }
-    
-    private func startTimer() {
-        if timer == nil {
-            gameLimit = Double.fiveMinutes
-            
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdownLabel), userInfo: nil, repeats: true)
-            
-            timer?.fire()
-        }
-    }
-    
-    @objc private func updateCountdownLabel() {
-        DispatchQueue.main.async {
-            self.gameLimit -= 1.0
-            self.countdownTimerLabel.text = self.gameLimit.countdownString()
-            
-            if self.gameLimit == 0 {
-                self.pauseTimer()
-                self.delegate?.timerDidEnd()
-            }
-        }
-    }
-    
-    private func resetTimer() {
-        timer?.invalidate()
-        timer = nil
-        gameLimit = Double.fiveMinutes
-        
-        DispatchQueue.main.async {
-            self.countdownTimerLabel.text = "05:00"
-        }
-        
-    }
-    
-    private func pauseTimer() {
-        timer?.invalidate()
+        viewModel?.handleTimer()
     }
 
+}
+
+extension CounterAndTimerView: CounterAndTimerViewModelDelegate {
+    func reloadUI() {
+        updateUI()
+    }
 }

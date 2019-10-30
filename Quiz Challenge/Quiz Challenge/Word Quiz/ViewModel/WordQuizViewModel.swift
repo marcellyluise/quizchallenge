@@ -10,6 +10,9 @@ import Foundation
 
 protocol WordQuizViewModelDelegate: class {
     func isLoading(isLoading: Bool)
+    func didCompleteQuizOnTime()
+    func shouldStartTimer()
+    func shoudResetTimer()
 }
 
 class WordQuizViewModel {
@@ -26,9 +29,11 @@ class WordQuizViewModel {
     }
     
     var expectedNumberOfWords: Int {
-        return quiz?.answer?.count ?? 0
+//        return quiz?.answer?.count ?? 0
+        return 5
     }
     
+    private(set) var shouldResetTimer: Bool = false
     private(set) var userDidBeginToType: Bool = false
     
     weak var delegate: WordQuizViewModelDelegate?
@@ -38,6 +43,12 @@ class WordQuizViewModel {
         self.delegate = delegate
     }
     
+}
+
+// MARK: - Quiz Result
+enum QuizResult {
+    case completed
+    case notFinished
 }
 
 // MARK: - Business Rule
@@ -55,10 +66,37 @@ extension WordQuizViewModel {
         handleGameStart()
         
         typedWords.insert(word, at: 0)
+        
+        if didTypeAllWords() {
+            delegate?.didCompleteQuizOnTime()
+            shouldResetTimer = true
+            delegate?.shoudResetTimer()
+        }
     }
     
     func resetAnswers() {
         typedWords.removeAll()
+        shouldResetTimer = false
+    }
+    
+    func verifyQuizResult(with timer: TimeInterval) -> QuizResult {
+        if didTypeAllWords() && didFinishOnTime(currentTimer: timer) {
+            return .completed
+        } else {
+            return .notFinished
+        }
+    }
+    
+    func playAgain() {
+        shouldResetTimer = true
+    }
+    
+    private func didTypeAllWords() -> Bool {
+        return numberOfWordsTyped == expectedNumberOfWords
+    }
+    
+    private func didFinishOnTime(currentTimer: TimeInterval) -> Bool {
+        return currentTimer > 0
     }
 }
 
