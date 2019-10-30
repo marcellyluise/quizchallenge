@@ -10,6 +10,10 @@
 		FD9444C623664E3B00D2F65C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C523664E3B00D2F65C /* Service.swift */; };
 		FD9444C823664E8900D2F65C /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C723664E8900D2F65C /* Quiz.swift */; };
 		FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C92366520600D2F65C /* WordQuizViewModel.swift */; };
+		FD97CC0A2368F0A6009079F9 /* CounterAndTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97CC092368F0A6009079F9 /* CounterAndTimerView.swift */; };
+		FD97CC0C2368F0B8009079F9 /* CounterAndTimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD97CC0B2368F0B8009079F9 /* CounterAndTimerView.xib */; };
+		FD97CC112368F10C009079F9 /* XibLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97CC102368F10C009079F9 /* XibLoader.swift */; };
+		FD97CC132368F213009079F9 /* View + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97CC122368F213009079F9 /* View + Extension.swift */; };
 		FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */; };
 		FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */; };
 		FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */; };
@@ -43,6 +47,10 @@
 		FD9444C523664E3B00D2F65C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		FD9444C723664E8900D2F65C /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		FD9444C92366520600D2F65C /* WordQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQuizViewModel.swift; sourceTree = "<group>"; };
+		FD97CC092368F0A6009079F9 /* CounterAndTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterAndTimerView.swift; sourceTree = "<group>"; };
+		FD97CC0B2368F0B8009079F9 /* CounterAndTimerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CounterAndTimerView.xib; sourceTree = "<group>"; };
+		FD97CC102368F10C009079F9 /* XibLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibLoader.swift; sourceTree = "<group>"; };
+		FD97CC122368F213009079F9 /* View + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Extension.swift"; sourceTree = "<group>"; };
 		FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewCell.swift; sourceTree = "<group>"; };
 		FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordsTableViewCell.xib; sourceTree = "<group>"; };
 		FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableViewCell + Extension.swift"; sourceTree = "<group>"; };
@@ -107,8 +115,8 @@
 		FD9444BF23664D5F00D2F65C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FDD8DF1B236628CE0017F6E2 /* WordQuizController.swift */,
-				FD9444C323664D9400D2F65C /* Xib */,
+				FD97CC082368F05B009079F9 /* Controller */,
+				FD9444C323664D9400D2F65C /* Storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -133,16 +141,17 @@
 			isa = PBXGroup;
 			children = (
 				FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */,
+				FD97CC122368F213009079F9 /* View + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		FD9444C323664D9400D2F65C /* Xib */ = {
+		FD9444C323664D9400D2F65C /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
 				FDD8DF1D236628CE0017F6E2 /* Main.storyboard */,
 			);
-			path = Xib;
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		FD9444C423664DA800D2F65C /* Support Files */ = {
@@ -154,9 +163,43 @@
 			path = "Support Files";
 			sourceTree = "<group>";
 		};
+		FD97CC082368F05B009079F9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FDD8DF1B236628CE0017F6E2 /* WordQuizController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FD97CC0D2368F0CB009079F9 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				FD97CC0E2368F0D6009079F9 /* Counter and Timer */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		FD97CC0E2368F0D6009079F9 /* Counter and Timer */ = {
+			isa = PBXGroup;
+			children = (
+				FD97CC092368F0A6009079F9 /* CounterAndTimerView.swift */,
+				FD97CC0B2368F0B8009079F9 /* CounterAndTimerView.xib */,
+			);
+			path = "Counter and Timer";
+			sourceTree = "<group>";
+		};
+		FD97CC0F2368F0F7009079F9 /* Helper Classes  */ = {
+			isa = PBXGroup;
+			children = (
+				FD97CC102368F10C009079F9 /* XibLoader.swift */,
+			);
+			path = "Helper Classes ";
+			sourceTree = "<group>";
+		};
 		FDC31F3C23665586008B5B9B /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FD97CC0D2368F0CB009079F9 /* Custom Views */,
 				FDC31F3D2366558E008B5B9B /* Cells */,
 			);
 			path = Components;
@@ -194,9 +237,10 @@
 		FDD8DF18236628CE0017F6E2 /* Quiz Challenge */ = {
 			isa = PBXGroup;
 			children = (
-				FDC31F3C23665586008B5B9B /* Components */,
 				FDD8DF19236628CE0017F6E2 /* AppDelegate.swift */,
 				FDD8DF25236628D60017F6E2 /* Info.plist */,
+				FD97CC0F2368F0F7009079F9 /* Helper Classes  */,
+				FDC31F3C23665586008B5B9B /* Components */,
 				FD9444C423664DA800D2F65C /* Support Files */,
 				FD9444C223664D7F00D2F65C /* Extensions */,
 				FD9444C123664D7800D2F65C /* Networking */,
@@ -330,6 +374,7 @@
 				FDD8DF24236628D60017F6E2 /* LaunchScreen.storyboard in Resources */,
 				FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */,
 				FDD8DF21236628D60017F6E2 /* Assets.xcassets in Resources */,
+				FD97CC0C2368F0B8009079F9 /* CounterAndTimerView.xib in Resources */,
 				FDD8DF1F236628CE0017F6E2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,9 +403,12 @@
 				FDD8DF1C236628CE0017F6E2 /* WordQuizController.swift in Sources */,
 				FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */,
 				FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */,
+				FD97CC0A2368F0A6009079F9 /* CounterAndTimerView.swift in Sources */,
 				FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */,
 				FD9444C823664E8900D2F65C /* Quiz.swift in Sources */,
 				FD9444C623664E3B00D2F65C /* Service.swift in Sources */,
+				FD97CC112368F10C009079F9 /* XibLoader.swift in Sources */,
+				FD97CC132368F213009079F9 /* View + Extension.swift in Sources */,
 				FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

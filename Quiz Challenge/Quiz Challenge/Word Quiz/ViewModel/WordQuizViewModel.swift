@@ -15,20 +15,19 @@ protocol WordQuizViewModelDelegate: class {
 class WordQuizViewModel {
 
     private var quiz: Quiz?
+    private(set) var typedWords: [String] = []
     
     var question: String? {
         return quiz?.question
     }
-    
-    var words: [String]? {
-        return quiz?.answer
+ 
+    var numberOfWordsTyped: Int {
+        return typedWords.count
     }
     
-    var counter: Int {
-        return answers.count
+    var expectedNumberOfWords: Int {
+        return quiz?.answer?.count ?? 0
     }
-    
-    private(set) var answers: [String] = []
     
     weak var delegate: WordQuizViewModelDelegate?
     
@@ -47,7 +46,11 @@ extension WordQuizViewModel {
             return
         }
         
-        answers.append(word)
+        typedWords.insert(word, at: 0)
+    }
+    
+    func resetAnswers() {
+        typedWords.removeAll()
     }
 }
 
