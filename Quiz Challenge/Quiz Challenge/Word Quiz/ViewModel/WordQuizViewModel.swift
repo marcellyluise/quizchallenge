@@ -29,6 +29,8 @@ class WordQuizViewModel {
         return quiz?.answer?.count ?? 0
     }
     
+    private(set) var userDidBeginToType: Bool = false
+    
     weak var delegate: WordQuizViewModelDelegate?
     
     init(delegate: WordQuizViewModelDelegate?) {
@@ -40,11 +42,17 @@ class WordQuizViewModel {
 
 // MARK: - Business Rule
 extension WordQuizViewModel {
+    private func handleGameStart() {
+        userDidBeginToType = typedWords.count == 0
+    }
+    
     func addAnswer(with word: String?) {
         
         guard let word = word, word != "" else {
             return
         }
+        
+        handleGameStart()
         
         typedWords.insert(word, at: 0)
     }

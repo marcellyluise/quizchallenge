@@ -14,6 +14,7 @@
 		FD97CC0C2368F0B8009079F9 /* CounterAndTimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD97CC0B2368F0B8009079F9 /* CounterAndTimerView.xib */; };
 		FD97CC112368F10C009079F9 /* XibLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97CC102368F10C009079F9 /* XibLoader.swift */; };
 		FD97CC132368F213009079F9 /* View + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97CC122368F213009079F9 /* View + Extension.swift */; };
+		FDA9B6D523692CF500573EE0 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA9B6D423692CF500573EE0 /* TimeInterval+Extension.swift */; };
 		FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */; };
 		FDC31F41236655B1008B5B9B /* WordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */; };
 		FDC31F4323665671008B5B9B /* TableViewCell + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */; };
@@ -51,6 +52,7 @@
 		FD97CC0B2368F0B8009079F9 /* CounterAndTimerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CounterAndTimerView.xib; sourceTree = "<group>"; };
 		FD97CC102368F10C009079F9 /* XibLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibLoader.swift; sourceTree = "<group>"; };
 		FD97CC122368F213009079F9 /* View + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Extension.swift"; sourceTree = "<group>"; };
+		FDA9B6D423692CF500573EE0 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		FDC31F3E236655B1008B5B9B /* WordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewCell.swift; sourceTree = "<group>"; };
 		FDC31F3F236655B1008B5B9B /* WordsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordsTableViewCell.xib; sourceTree = "<group>"; };
 		FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableViewCell + Extension.swift"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				FDC31F4223665671008B5B9B /* TableViewCell + Extension.swift */,
 				FD97CC122368F213009079F9 /* View + Extension.swift */,
+				FDA9B6D423692CF500573EE0 /* TimeInterval+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD8DF1C236628CE0017F6E2 /* WordQuizController.swift in Sources */,
+				FDA9B6D523692CF500573EE0 /* TimeInterval+Extension.swift in Sources */,
 				FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */,
 				FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */,
 				FD97CC0A2368F0A6009079F9 /* CounterAndTimerView.swift in Sources */,

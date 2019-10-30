@@ -183,7 +183,7 @@ extension WordQuizController: UITextFieldDelegate {
 // MARK: - Words Counter and Timer View
 
 extension WordQuizController: CounterAndTimerDataSource {
-    
+
     // MARK: Data Source
     func numberOfTypedWords() -> Int {
         return viewModel.numberOfWordsTyped
@@ -193,11 +193,19 @@ extension WordQuizController: CounterAndTimerDataSource {
         return viewModel.expectedNumberOfWords
     }
     
+    func shouldStartTimer() -> Bool {
+        return viewModel.userDidBeginToType
+    }
+    
     
 }
 
 // MARK: Delegate
 extension WordQuizController: CounterAndTimerViewDelegate {
+    func timerDidEnd() {
+        
+    }
+    
     
     func didTapStartTimer() {
         
