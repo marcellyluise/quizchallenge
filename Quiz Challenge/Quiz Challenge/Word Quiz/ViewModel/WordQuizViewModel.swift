@@ -31,8 +31,7 @@ class WordQuizViewModel {
     }
     
     var expectedNumberOfWords: Int {
-//        return quiz?.answer?.count ?? 0
-        return 5
+        return quiz?.answer?.count ?? 0
     }
     
     private(set) var shouldResetTimer: Bool = false
