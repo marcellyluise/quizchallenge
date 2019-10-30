@@ -8,6 +8,11 @@
 
 import UIKit
 
+extension Notification {
+    static let timerDidFinish = Notification.Name("TimerDidFinish")
+}
+
+
 class CounterAndTimerView: XibLoader {
 
     @IBOutlet weak var startResetButton: UIButton!
@@ -17,7 +22,7 @@ class CounterAndTimerView: XibLoader {
             countdownTimerLabel.font = UIFont.monospacedSystemFont(ofSize: countdownTimerLabel.font.pointSize, weight: .bold)
         }
     }
-    
+
     var viewModel: CounterAndTimerViewModel? {
         didSet {
             
@@ -45,9 +50,22 @@ class CounterAndTimerView: XibLoader {
         viewModel?.handleTimer()
     }
 
+    override func didLoadViewFromXib() {
+        NotificationCenter.default.addObserver(self, selector: #selector(resetTimer), name: Notification.Name("ResetTimer"), object: nil)
+    }
+
+    
+    @objc private func resetTimer() {
+        viewModel?.resetTimer()
+    }
 }
 
 extension CounterAndTimerView: CounterAndTimerViewModelDelegate {
+    func timerDidFinish() {
+        NotificationCenter.default.post(name: Notification.Name("TimerDidFinish"), object: nil)
+        
+    }
+    
     func reloadUI() {
         updateUI()
     }

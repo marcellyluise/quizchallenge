@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DAB1578236A08EA0020475A /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB1577236A08EA0020475A /* TimeManager.swift */; };
 		FD9444C623664E3B00D2F65C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C523664E3B00D2F65C /* Service.swift */; };
 		FD9444C823664E8900D2F65C /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C723664E8900D2F65C /* Quiz.swift */; };
 		FD9444CA2366520700D2F65C /* WordQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9444C92366520600D2F65C /* WordQuizViewModel.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2DAB1577236A08EA0020475A /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		FD9444C523664E3B00D2F65C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		FD9444C723664E8900D2F65C /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		FD9444C92366520600D2F65C /* WordQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQuizViewModel.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				FD97CC102368F10C009079F9 /* XibLoader.swift */,
+				2DAB1577236A08EA0020475A /* TimeManager.swift */,
 			);
 			path = "Helper Classes ";
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 			files = (
 				FDD8DF1C236628CE0017F6E2 /* WordQuizController.swift in Sources */,
 				FDA9B6D523692CF500573EE0 /* TimeInterval+Extension.swift in Sources */,
+				2DAB1578236A08EA0020475A /* TimeManager.swift in Sources */,
 				FDC31F40236655B1008B5B9B /* WordsTableViewCell.swift in Sources */,
 				FDD8DF1A236628CE0017F6E2 /* AppDelegate.swift in Sources */,
 				FD97CC0A2368F0A6009079F9 /* CounterAndTimerView.swift in Sources */,

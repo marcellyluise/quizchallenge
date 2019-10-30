@@ -11,8 +11,10 @@ import Foundation
 protocol WordQuizViewModelDelegate: class {
     func isLoading(isLoading: Bool)
     func didCompleteQuizOnTime()
+    func didNotFinishQuiz()
     func shouldStartTimer()
     func shoudResetTimer()
+    func shouldPauseTimer()
 }
 
 class WordQuizViewModel {
@@ -54,7 +56,9 @@ enum QuizResult {
 // MARK: - Business Rule
 extension WordQuizViewModel {
     private func handleGameStart() {
-        userDidBeginToType = typedWords.count == 0
+        if typedWords.count == 0 {
+            delegate?.shouldStartTimer()
+        }
     }
     
     func addAnswer(with word: String?) {
@@ -65,18 +69,13 @@ extension WordQuizViewModel {
         
         handleGameStart()
         
-        typedWords.insert(word, at: 0)
-        
         if didTypeAllWords() {
             delegate?.didCompleteQuizOnTime()
-            shouldResetTimer = true
-            delegate?.shoudResetTimer()
+            delegate?.shouldPauseTimer()
         }
-    }
-    
-    func resetAnswers() {
-        typedWords.removeAll()
-        shouldResetTimer = false
+        
+        typedWords.insert(word, at: 0)
+
     }
     
     func verifyQuizResult(with timer: TimeInterval) -> QuizResult {
@@ -88,7 +87,16 @@ extension WordQuizViewModel {
     }
     
     func playAgain() {
-        shouldResetTimer = true
+        typedWords.removeAll()
+        delegate?.shoudResetTimer()
+    }
+    
+    func timerDidFinish() {
+        if didTypeAllWords() {
+            delegate?.didCompleteQuizOnTime()
+        } else {
+            delegate?.didNotFinishQuiz()
+        }
     }
     
     private func didTypeAllWords() -> Bool {

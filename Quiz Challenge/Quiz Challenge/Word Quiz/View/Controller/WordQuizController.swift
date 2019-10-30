@@ -98,7 +98,17 @@ class WordQuizController: UIViewController {
             self.playAgain()
         }
     }
+    
+    // MARK: Timer did Finish
+    @objc private func timerDidFinish() {
+        viewModel.timerDidFinish()
+    }
+    
 
+    private func pauseTimer() {
+        NotificationCenter.default.post(name: Notification.Name("PauseTimer"), object: nil)
+    }
+    
 }
 
 // MARK: - Keyboard
@@ -109,6 +119,7 @@ extension WordQuizController {
     private func addKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: Notification.Name("TimerDidFinish"), object: nil)
     }
     
     private func removeKeyboardObservers() {
@@ -164,17 +175,29 @@ extension WordQuizController: UITableViewDataSource {
 
 extension WordQuizController: WordQuizViewModelDelegate {
     func shoudResetTimer() {
-
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            NotificationCenter.default.post(name: Notification.Name("ResetTimer"), object: nil)
+        }
     }
     
     func didCompleteQuizOnTime() {
-      
+        pauseTimer()
+        showSuccessMessage()
     }
     
     func shouldStartTimer() {
         
     }
     
+    func shouldPauseTimer() {
+        pauseTimer()
+    }
+    
+    func didNotFinishQuiz() {
+        showDidNotFinishMessage()
+    }
     
     // MARK: Setup
     private func setupViewModel() {

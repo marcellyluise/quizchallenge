@@ -10,6 +10,7 @@ import UIKit
 
 protocol CounterAndTimerViewModelDelegate: class {
     func reloadUI()
+    func timerDidFinish()
 }
 
 protocol CounterAndTimerViewModelDataSource: class {
@@ -21,8 +22,6 @@ class CounterAndTimerViewModel {
     private(set) var numberOfTypedWords: Int
     private(set) var numberOfExpectedWords: Int
     
-    private var timer: Timer?
-    
     weak var delegate: CounterAndTimerViewModelDelegate?
     weak var dataSource: CounterAndTimerViewModelDataSource?
     
@@ -30,11 +29,15 @@ class CounterAndTimerViewModel {
         self.numberOfTypedWords = numberOfTypedWords
         self.numberOfExpectedWords = numberOfExpectedWords
         
-        self.addNotification()
+        self.addObservers()
     }
     
-    private func addNotification() {
+    private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: Notification.Name("UpdateUI"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: Notification.Name("TimeDidFinish"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseTimer), name: Notification.Name("PauseTimer"), object: nil)
     }
     
     var wordsCounterText: String {
@@ -55,6 +58,10 @@ class CounterAndTimerViewModel {
         updateUI()
     }
     
+    @objc private func pauseTimer() {
+        TimerManager.shared.pauseTimer()
+    }
+    
     func handleTimer() {
         if TimerManager.shared.timerIsValid {
             resetTimer()
@@ -69,10 +76,14 @@ class CounterAndTimerViewModel {
         updateUI()
     }
     
-    private func resetTimer() {
+    func resetTimer() {
         TimerManager.shared.resetTimer()
         
         updateUI()
+    }
+    
+    @objc private func timerDidFinish() {
+        delegate?.timerDidFinish()
     }
     
     @objc private func updateUI() {
@@ -83,57 +94,3 @@ class CounterAndTimerViewModel {
     }
 
 }
-
-class TimerManager {
-    
-    static let shared = TimerManager()
-    
-    private var timer: Timer?
-    private var timeLimit: TimeInterval = 0
-    private var timeElapsed: TimeInterval = 0
-    
-    var currentTimerValue: TimeInterval {
-        return timeElapsed
-    }
-    
-    var currentTimeString: String {
-        return timeElapsed.countdownString()
-    }
-    
-    var timerIsValid: Bool {
-        return timer?.isValid ?? false
-    }
-    
-    private init() {
-        
-    }
-    
-    func startTimer(with timeLimit: TimeInterval) {
-        self.timeLimit = timeLimit
-        self.timeElapsed = timeLimit
-        
-        if !timerIsValid {
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerCountdown), userInfo: nil, repeats: true)
-            timer?.fire()
-        }
-    }
-    
-    func resetTimer() {
-        
-        timer?.invalidate()
-        timer = nil
-        
-        timeElapsed = timeLimit
-        
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("UpdateUI"), object: nil)
-    }
-    
-    @objc private func updateTimerCountdown() {
-        timeElapsed -= 1
-        
-        NotificationCenter.default.post(name: Notification.Name("UpdateUI"), object: nil)
-    }
-    
-}
-
-
