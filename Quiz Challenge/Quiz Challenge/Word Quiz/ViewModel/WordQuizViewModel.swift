@@ -15,6 +15,7 @@ protocol WordQuizViewModelDelegate: class {
     func shouldStartTimer()
     func shoudResetTimer()
     func shouldPauseTimer()
+    func shouldUpdateWordsCounter()
 }
 
 class WordQuizViewModel {
@@ -31,7 +32,7 @@ class WordQuizViewModel {
     }
     
     var expectedNumberOfWords: Int {
-        return quiz?.answer?.count ?? 0
+        return 10
     }
     
     private(set) var shouldResetTimer: Bool = false
@@ -68,13 +69,14 @@ extension WordQuizViewModel {
         
         handleGameStart()
         
+        typedWords.insert(word, at: 0)
+        
         if didTypeAllWords() {
             delegate?.didCompleteQuizOnTime()
             delegate?.shouldPauseTimer()
         }
         
-        typedWords.insert(word, at: 0)
-
+        delegate?.shouldUpdateWordsCounter()
     }
     
     func verifyQuizResult(with timer: TimeInterval) -> QuizResult {

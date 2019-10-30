@@ -43,7 +43,7 @@ class CounterAndTimerViewModel {
     }
     
     var wordsCounterText: String {
-        return "\(numberOfTypedWords)/\(numberOfExpectedWords)"
+        return String(format: "%0.2d/%0.2d", numberOfTypedWords, numberOfExpectedWords)
     }
     
     var coundownTimerText: String {

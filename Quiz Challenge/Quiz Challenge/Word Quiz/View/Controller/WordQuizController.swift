@@ -42,7 +42,7 @@ class WordQuizController: UIViewController {
     // MARK: - Setup UI
     private func setupUI() {
         setupTableView()
-        setupCounterAndTimerView()
+        updateCounterAndTimerViewModel()
     }
     
 
@@ -52,9 +52,9 @@ class WordQuizController: UIViewController {
         tableView.register(cellType: WordsTableViewCell.self)
     }
     
-    private func setupCounterAndTimerView() {
-        
-
+    private func updateCounterAndTimerViewModel() {
+        let counterTimerViewModel = CounterAndTimerViewModel(numberOfExpectedWords: viewModel.expectedNumberOfWords, numberOfTypedWords: viewModel.numberOfWordsTyped)
+        counterAndTimerView.viewModel = counterTimerViewModel
     }
 
     // MARK: - Features
@@ -89,13 +89,20 @@ class WordQuizController: UIViewController {
     // MARK: Completed Quiz
     private func showSuccessMessage() {
         showAlert(with: "Congratulations", message: "Good job! You found all the answers on time. Keep up with the great work", actionTitle: "Play again", actionStyle: .cancel) { (action) in
-            self.playAgain()
+            
+            DispatchQueue.main.async {
+                self.playAgain()
+            }
+            
         }
     }
     // MARK: Did Not Finish Quiz
     private func showDidNotFinishMessage() {
         showAlert(with: "Time finished", message: "Sorry, time is up! You got \(viewModel.numberOfWordsTyped) out of \(viewModel.expectedNumberOfWords) answers.", actionTitle: "Try again", actionStyle: .cancel) { (action) in
-            self.playAgain()
+            
+            DispatchQueue.main.async {
+                self.playAgain()
+            }
         }
     }
     
@@ -104,13 +111,16 @@ class WordQuizController: UIViewController {
         viewModel.timerDidFinish()
     }
     
-
     private func pauseTimer() {
         NotificationCenter.default.post(name: Notification.Name("PauseTimer"), object: nil)
     }
     
     private func startTimer() {
         NotificationCenter.default.post(name: Notification.Name("StartTimer"), object: nil)
+    }
+    
+    private func updateWordsCounter() {
+        updateCounterAndTimerViewModel()
     }
     
 }
@@ -182,6 +192,7 @@ extension WordQuizController: WordQuizViewModelDelegate {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.updateCounterAndTimerViewModel()
             NotificationCenter.default.post(name: Notification.Name("ResetTimer"), object: nil)
         }
     }
@@ -203,6 +214,10 @@ extension WordQuizController: WordQuizViewModelDelegate {
         showDidNotFinishMessage()
     }
     
+    func shouldUpdateWordsCounter() {
+        updateWordsCounter()
+    }
+    
     // MARK: Setup
     private func setupViewModel() {
         viewModel = WordQuizViewModel(delegate: self)
@@ -212,8 +227,7 @@ extension WordQuizController: WordQuizViewModelDelegate {
     func isLoading(isLoading: Bool) {
         DispatchQueue.main.async {
             self.questionLabel.text = self.viewModel.question
-            let counterTimerViewModel = CounterAndTimerViewModel(numberOfExpectedWords: self.viewModel.expectedNumberOfWords, numberOfTypedWords: self.viewModel.numberOfWordsTyped)
-            self.counterAndTimerView.viewModel = counterTimerViewModel
+            self.updateCounterAndTimerViewModel()
             self.tableView.reloadData()
         }
     }
