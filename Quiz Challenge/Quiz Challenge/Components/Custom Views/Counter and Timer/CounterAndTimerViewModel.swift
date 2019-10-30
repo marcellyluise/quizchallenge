@@ -11,6 +11,7 @@ import UIKit
 protocol CounterAndTimerViewModelDelegate: class {
     func reloadUI()
     func timerDidFinish()
+    func userDidResetTimer()
 }
 
 protocol CounterAndTimerViewModelDataSource: class {
@@ -81,7 +82,7 @@ class CounterAndTimerViewModel {
     func resetTimer() {
         TimerManager.shared.resetTimer()
         
-        updateUI()
+        delegate?.userDidResetTimer()
     }
     
     @objc private func timerDidFinish() {

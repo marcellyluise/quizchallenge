@@ -123,6 +123,11 @@ class WordQuizController: UIViewController {
         updateCounterAndTimerViewModel()
     }
     
+    @objc private func userDidResetTimer() {
+        viewModel.userDidResetTimer()
+    }
+
+    
 }
 
 // MARK: - Keyboard
@@ -134,6 +139,8 @@ extension WordQuizController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: Notification.Name("TimerDidFinish"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidResetTimer), name: Notification.Name("UserDidResetTimer"), object: nil)
     }
     
     private func removeKeyboardObservers() {
@@ -188,7 +195,7 @@ extension WordQuizController: UITableViewDataSource {
 // MARK: - View Model
 
 extension WordQuizController: WordQuizViewModelDelegate {
-    func shoudResetTimer() {
+    func shouldResetTimer() {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -216,6 +223,14 @@ extension WordQuizController: WordQuizViewModelDelegate {
     
     func shouldUpdateWordsCounter() {
         updateWordsCounter()
+    }
+    
+    @objc func userDidResetQuiz() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.updateCounterAndTimerViewModel()
+        }
+
     }
     
     // MARK: Setup

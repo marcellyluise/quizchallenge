@@ -10,12 +10,16 @@ import Foundation
 
 protocol WordQuizViewModelDelegate: class {
     func isLoading(isLoading: Bool)
+    
     func didCompleteQuizOnTime()
     func didNotFinishQuiz()
+    
     func shouldStartTimer()
-    func shoudResetTimer()
+    func shouldResetTimer()
     func shouldPauseTimer()
     func shouldUpdateWordsCounter()
+    func userDidResetQuiz()
+
 }
 
 class WordQuizViewModel {
@@ -89,7 +93,7 @@ extension WordQuizViewModel {
     
     func playAgain() {
         typedWords.removeAll()
-        delegate?.shoudResetTimer()
+        delegate?.shouldResetTimer()
     }
     
     func timerDidFinish() {
@@ -98,6 +102,11 @@ extension WordQuizViewModel {
         } else {
             delegate?.didNotFinishQuiz()
         }
+    }
+    
+    func userDidResetTimer() {
+        typedWords.removeAll()
+        delegate?.userDidResetQuiz()
     }
     
     private func didTypeAllWords() -> Bool {

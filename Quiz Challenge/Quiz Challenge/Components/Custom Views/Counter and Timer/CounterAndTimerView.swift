@@ -37,7 +37,6 @@ class CounterAndTimerView: XibLoader {
             self.wordsCounterLabel.text = self.viewModel?.wordsCounterText
             self.countdownTimerLabel.text = self.viewModel?.coundownTimerText
         }
-        
     }
     
     private var buttonTitle: String? {
@@ -68,5 +67,9 @@ extension CounterAndTimerView: CounterAndTimerViewModelDelegate {
     
     func reloadUI() {
         updateUI()
+    }
+    
+    func userDidResetTimer() {
+        NotificationCenter.default.post(name: Notification.Name("UserDidResetTimer"), object: nil)
     }
 }

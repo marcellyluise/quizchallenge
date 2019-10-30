@@ -15,7 +15,7 @@ extension TimeInterval {
     }
     
     static var fiveMinutes: TimeInterval {
-        return 5 * 60
+        return 10
     }
     
     func countdownString() -> String {

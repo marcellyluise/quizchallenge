@@ -54,7 +54,6 @@ class TimerManager {
         
         timeElapsed = timeLimit
         
-        NotificationCenter.default.removeObserver(self, name: Notification.Name("UpdateUI"), object: nil)
     }
     
     @objc private func updateTimerCountdown() {
