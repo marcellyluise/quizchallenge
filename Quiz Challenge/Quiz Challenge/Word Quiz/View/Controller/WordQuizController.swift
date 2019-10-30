@@ -109,6 +109,10 @@ class WordQuizController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("PauseTimer"), object: nil)
     }
     
+    private func startTimer() {
+        NotificationCenter.default.post(name: Notification.Name("StartTimer"), object: nil)
+    }
+    
 }
 
 // MARK: - Keyboard
@@ -188,7 +192,7 @@ extension WordQuizController: WordQuizViewModelDelegate {
     }
     
     func shouldStartTimer() {
-        
+        startTimer()
     }
     
     func shouldPauseTimer() {

@@ -38,6 +38,8 @@ class CounterAndTimerViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: Notification.Name("TimeDidFinish"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(pauseTimer), name: Notification.Name("PauseTimer"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(startTimer), name: Notification.Name("StartTimer"), object: nil)
     }
     
     var wordsCounterText: String {
@@ -70,7 +72,7 @@ class CounterAndTimerViewModel {
         }
     }
     
-    private func startTimer() {
+    @objc private func startTimer() {
         TimerManager.shared.startTimer(with: Double.fiveMinutes)
         
         updateUI()
