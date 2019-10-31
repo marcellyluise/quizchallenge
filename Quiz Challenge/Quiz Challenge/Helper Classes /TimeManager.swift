@@ -60,11 +60,11 @@ class TimerManager {
         
         if timeElapsed == 0 {
             pauseTimer()
-            NotificationCenter.default.post(name: Notification.Name("TimeDidFinish"), object: nil)
+            NotificationCenter.default.post(name: .timerManagerDidFinish, object: nil)
         } else {
             timeElapsed -= 1
             
-            NotificationCenter.default.post(name: Notification.Name("UpdateUI"), object: nil)
+            NotificationCenter.default.post(name: .updateUI, object: nil)
         }
     }
 }

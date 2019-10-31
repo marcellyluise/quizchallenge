@@ -30,13 +30,13 @@ class WordQuizController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addKeyboardObservers()
+        addObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        removeKeyboardObservers()
+        removeObservers()
     }
     
     // MARK: - Setup UI
@@ -45,13 +45,13 @@ class WordQuizController: UIViewController {
         updateCounterAndTimerViewModel()
         setupTextField()
     }
-    
+    // MARK: Table View
     private func setupTableView() {
         tableView.tableFooterView = UIView()
-        
         tableView.register(cellType: WordsTableViewCell.self)
     }
     
+    // MARK: TextField
     private func setupTextField() {
         inputTextField.rounded(with: 4.0)
         
@@ -62,6 +62,7 @@ class WordQuizController: UIViewController {
         inputTextField.leftViewMode = .always
     }
     
+    // MARK: UI Components
     private func showHiddenComponents() {
         
         UIView.animate(withDuration: 0.3) {
@@ -70,26 +71,22 @@ class WordQuizController: UIViewController {
     }
     
     private func updateCounterAndTimerViewModel() {
-        let counterTimerViewModel = CounterAndTimerViewModel(numberOfExpectedWords: viewModel.expectedNumberOfWords, numberOfTypedWords: viewModel.numberOfWordsTyped)
+        let counterTimerViewModel = CounterAndTimerViewModel(numberOfExpectedWords: viewModel.expectedNumberOfWords,
+                                                             numberOfTypedWords: viewModel.numberOfWordsTyped)
         counterAndTimerView.viewModel = counterTimerViewModel
     }
 
     // MARK: - Features
-    
     @IBAction func addAnswer(_ sender: UITextField) {
     
         guard let word = sender.text else {
             return
         }
         
-        viewModel.addAnswer(with: word)
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        addAnswer(with: word)
     }
     
-    // MARK: Add words as answer
+    // MARK: Add answer
     private func addAnswer(with word: String?) {
         viewModel.addAnswer(with: word)
         
@@ -103,7 +100,7 @@ class WordQuizController: UIViewController {
         viewModel.playAgain()
     }
     
-    // MARK: Completed Quiz
+    // MARK: Alert Completed Quiz
     private func showSuccessMessage() {
         showAlert(with: "Congratulations", message: "Good job! You found all the answers on time. Keep up with the great work", actionTitle: "Play again", actionStyle: .cancel) { (action) in
             
@@ -113,7 +110,7 @@ class WordQuizController: UIViewController {
             
         }
     }
-    // MARK: Did Not Finish Quiz
+    // MARK: Alert Did Not Finish Quiz
     private func showDidNotFinishMessage() {
         showAlert(with: "Time finished", message: "Sorry, time is up! You got \(viewModel.numberOfWordsTyped) out of \(viewModel.expectedNumberOfWords) answers.", actionTitle: "Try again", actionStyle: .cancel) { (action) in
             
@@ -123,82 +120,102 @@ class WordQuizController: UIViewController {
         }
     }
     
-    // MARK: Timer did Finish
+    // MARK: - Timer
     @objc private func timerDidFinish() {
         viewModel.timerDidFinish()
-    }
-    
-    private func pauseTimer() {
-        NotificationCenter.default.post(name: Notification.Name("PauseTimer"), object: nil)
-    }
-    
-    private func startTimer() {
-        NotificationCenter.default.post(name: Notification.Name("StartTimer"), object: nil)
-    }
-    
-    private func updateWordsCounter() {
-        updateCounterAndTimerViewModel()
     }
     
     @objc private func userDidResetTimer() {
         viewModel.userDidResetTimer()
         cleanInput()
     }
-
+    
+    private func pauseTimer() {
+        NotificationCenter.default.post(name: .pauseTimer, object: nil)
+    }
+    
+    private func startTimer() {
+        NotificationCenter.default.post(name: .startTimer, object: nil)
+    }
+    
+    // MARK: - Counter
+    private func updateWordsCounter() {
+        updateCounterAndTimerViewModel()
+    }
+    
+    
+    // MARK: - Input
     private func cleanInput() {
         self.inputTextField.text = nil
     }
     
 }
 
-// MARK: - Keyboard
+// MARK: - Observers
 
 extension WordQuizController {
-    
-    // MARK: Observers
-    private func addKeyboardObservers() {
+    // MARK: Add Observes
+    private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: Notification.Name("TimerDidFinish"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(userDidResetTimer), name: Notification.Name("UserDidResetTimer"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(timerDidFinish), name: .timerDidFinish, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidResetTimer), name: .userDidResetTimer, object: nil)
     }
     
-    private func removeKeyboardObservers() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    // MARK: Remove Observes
+    private func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: .timerDidFinish, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .userDidResetTimer, object: nil)
     }
+}
+
+// MARK: Keyboard
+extension WordQuizController {
     
     // MARK: Will Show
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            UIView.animate(withDuration: 0.3) {
-                
-                let currentiPhoneModel = UIDevice.current.name
-                
-                if currentiPhoneModel.contains("iPhone X") || currentiPhoneModel.contains("iPhone 11") {
-                    let safeArea: CGFloat = 34.0
-                    let keyboardHeight: CGFloat = keyboardSize.height
-                    self.bottomConstraint.constant = (keyboardHeight - safeArea) * (-1)
-                } else {
-                    let counterTimerHeight: CGFloat = self.counterAndTimerView.frame.height
-                    let safeArea: CGFloat = 34.0
-                    let keyboardHeight: CGFloat = keyboardSize.origin.y
-                    self.bottomConstraint.constant = (keyboardHeight - safeArea - counterTimerHeight) * (-1)
-                }
-                
-            }
+            self.pushViewUp(with: keyboardSize)
         }
     }
 
     // MARK: Will Hide
     @objc func keyboardWillHide(notification: NSNotification) {
-        
+        pullViewDown()
+    }
+    
+    // MARK: Push View Up
+    private func pushViewUp(with keyboardSize: CGRect) {
+        UIView.animate(withDuration: 0.3) {
+            
+            let currentiPhoneModel = UIDevice.current.name
+            
+            if currentiPhoneModel.contains("iPhone X") || currentiPhoneModel.contains("iPhone 11") {
+                
+                let safeArea: CGFloat = 34.0
+                let keyboardHeight: CGFloat = keyboardSize.height
+                
+                self.bottomConstraint.constant = (keyboardHeight - safeArea) * (-1)
+            } else {
+                let counterTimerHeight: CGFloat = self.counterAndTimerView.frame.height
+                
+                let safeArea: CGFloat = 34.0
+                let keyboardHeight: CGFloat = keyboardSize.origin.y
+                
+                self.bottomConstraint.constant = (keyboardHeight - safeArea - counterTimerHeight) * (-1)
+            }
+        }
+    }
+    
+    // MARK: Pull View Down
+    private func pullViewDown() {
         UIView.animate(withDuration: 0.3) {
             self.bottomConstraint.constant = 0
         }
-
     }
 }
 
@@ -212,11 +229,15 @@ extension WordQuizController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.typedWords.count
+        return viewModel.numberOfWordsTyped
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        return generateWordCell(with: tableView, at: indexPath)
+    }
+    
+    // MARK: Generate Cells
+    private func generateWordCell(with tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeeReusableCell(with: WordsTableViewCell.self, for: indexPath)
         
         cell.word = viewModel.typedWords[indexPath.row]
@@ -228,50 +249,14 @@ extension WordQuizController: UITableViewDataSource {
 // MARK: - View Model
 
 extension WordQuizController: WordQuizViewModelDelegate {
-    func shouldResetTimer() {
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.updateCounterAndTimerViewModel()
-            NotificationCenter.default.post(name: Notification.Name("ResetTimer"), object: nil)
-        }
-    }
-    
-    func didCompleteQuizOnTime() {
-        pauseTimer()
-        showSuccessMessage()
-    }
-    
-    func shouldStartTimer() {
-        startTimer()
-    }
-    
-    func shouldPauseTimer() {
-        pauseTimer()
-    }
-    
-    func didNotFinishQuiz() {
-        showDidNotFinishMessage()
-    }
-    
-    func shouldUpdateWordsCounter() {
-        updateWordsCounter()
-    }
-    
-    @objc func userDidResetQuiz() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.updateCounterAndTimerViewModel()
-        }
-
-    }
     
     // MARK: Setup
     private func setupViewModel() {
         viewModel = WordQuizViewModel(delegate: self)
     }
     
-    // MARK: Delegate
+    // MARK: - Delegates
+    
     func isLoading(isLoading: Bool) {
         DispatchQueue.main.async {
             if isLoading {
@@ -283,10 +268,56 @@ extension WordQuizController: WordQuizViewModelDelegate {
             }
         }
     }
+    
+    func serviceDidFail(with error: ServiceError) {
+        DispatchQueue.main.async {
+            self.showAlert(with: error)
+        }
+    }
+    
+    // MARK: Timer
+    func shouldResetTimer() {
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.updateCounterAndTimerViewModel()
+            NotificationCenter.default.post(name: .resetTimer, object: nil)
+        }
+    }
+    
+    func shouldStartTimer() {
+        startTimer()
+    }
+    
+    func shouldPauseTimer() {
+        pauseTimer()
+    }
+    
+    // MARK: Words Counter
+    func shouldUpdateWordsCounter() {
+        updateWordsCounter()
+    }
+    
+    // MARK: Quiz State
+    func didCompleteQuizOnTime() {
+        pauseTimer()
+        showSuccessMessage()
+    }
+    
+    func didNotFinishQuiz() {
+        showDidNotFinishMessage()
+    }
+    
+    @objc func userDidResetQuiz() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.updateCounterAndTimerViewModel()
+        }
+
+    }
 }
 
-// MARK: - Input
-
+// MARK: - Input Delegate
 extension WordQuizController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -299,5 +330,4 @@ extension WordQuizController: UITextFieldDelegate {
         
         return true
     }
-    
 }

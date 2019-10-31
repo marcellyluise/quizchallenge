@@ -1,5 +1,5 @@
 //
-//  TableViewCell + Extension.swift
+//  TableViewCell+Extension.swift
 //  Quiz Challenge
 //
 //  Created by Marcelly Luise on 27/10/19.

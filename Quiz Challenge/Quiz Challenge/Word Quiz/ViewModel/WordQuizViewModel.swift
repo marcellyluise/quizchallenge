@@ -10,6 +10,7 @@ import Foundation
 
 protocol WordQuizViewModelDelegate: class {
     func isLoading(isLoading: Bool)
+    func serviceDidFail(with error: ServiceError)
     
     func didCompleteQuizOnTime()
     func didNotFinishQuiz()
@@ -23,8 +24,12 @@ protocol WordQuizViewModelDelegate: class {
 
 class WordQuizViewModel {
 
+    // MARK: - Properties
     private var quiz: Quiz?
+    
     private(set) var typedWords: [String] = []
+    private(set) var shouldResetTimer: Bool = false
+    private(set) var userDidBeginToType: Bool = false
     
     var question: String? {
         return quiz?.question
@@ -38,14 +43,30 @@ class WordQuizViewModel {
         return quiz?.answer?.count ?? 50
     }
     
-    private(set) var shouldResetTimer: Bool = false
-    private(set) var userDidBeginToType: Bool = false
-    
     weak var delegate: WordQuizViewModelDelegate?
     
+    // MARK: - Init
     init(delegate: WordQuizViewModelDelegate?) {
         self.delegate = delegate
         
+        addDelayToViewActivityIndicatorWorking()
+    }
+    
+}
+
+// MARK: - Quiz Enum State
+
+enum QuizResult {
+    case completed
+    case notFinished
+}
+
+// MARK: - Business Rule
+
+extension WordQuizViewModel {
+    
+    // MARK: Add Delay
+    private func addDelayToViewActivityIndicatorWorking() {
         DispatchQueue.main.async {
             self.delegate?.isLoading(isLoading: true)
         }
@@ -53,29 +74,21 @@ class WordQuizViewModel {
         Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(fetchWordQuiz), userInfo: nil, repeats: false)
     }
     
-}
-
-// MARK: - Quiz Result
-enum QuizResult {
-    case completed
-    case notFinished
-}
-
-// MARK: - Business Rule
-extension WordQuizViewModel {
-    private func handleGameStart() {
+    // MARK: Start Quiz
+    private func HandleQuizStart() {
         if typedWords.count == 0 {
             delegate?.shouldStartTimer()
         }
     }
     
+    // MARK: Add Answer
     func addAnswer(with word: String?) {
         
         guard let word = word, word != "" else {
             return
         }
         
-        handleGameStart()
+        HandleQuizStart()
         
         typedWords.insert(word, at: 0)
         
@@ -87,6 +100,7 @@ extension WordQuizViewModel {
         delegate?.shouldUpdateWordsCounter()
     }
     
+    // MARK: Check Results
     func verifyQuizResult(with timer: TimeInterval) -> QuizResult {
         if didTypeAllWords() && didFinishOnTime(currentTimer: timer) {
             return .completed
@@ -95,11 +109,21 @@ extension WordQuizViewModel {
         }
     }
     
+    private func didTypeAllWords() -> Bool {
+        return numberOfWordsTyped == expectedNumberOfWords
+    }
+    
+    private func didFinishOnTime(currentTimer: TimeInterval) -> Bool {
+        return currentTimer > 0
+    }
+    
+    // MARK: Play Again
     func playAgain() {
         typedWords.removeAll()
         delegate?.shouldResetTimer()
     }
     
+    // MARK: - Timer
     func timerDidFinish() {
         if didTypeAllWords() {
             delegate?.didCompleteQuizOnTime()
@@ -112,29 +136,26 @@ extension WordQuizViewModel {
         typedWords.removeAll()
         delegate?.userDidResetQuiz()
     }
-    
-    private func didTypeAllWords() -> Bool {
-        return numberOfWordsTyped == expectedNumberOfWords
-    }
-    
-    private func didFinishOnTime(currentTimer: TimeInterval) -> Bool {
-        return currentTimer > 0
-    }
+
 }
 
 // MARK: - Service
 extension WordQuizViewModel {
     
     @objc private func fetchWordQuiz() {
-//        DispatchQueue.main.async {
-//            self.delegate?.isLoading(isLoading: true)
-//        }
         
         Service().fetchQuiz { (fetchedQuiz, error) in
             
-            DispatchQueue.main.async {
-                self.quiz = fetchedQuiz
-                self.delegate?.isLoading(isLoading: false)
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.delegate?.isLoading(isLoading: false)
+                    self.delegate?.serviceDidFail(with: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.quiz = fetchedQuiz
+                    self.delegate?.isLoading(isLoading: false)
+                }
             }
         }
     }

@@ -8,21 +8,41 @@
 
 import UIKit
 
+enum ServiceError: Error {
+    case endpointInvalid
+    case errorMessage(message: String?)
+    case errorStatusCode(statusCode: Int)
+    case unknown
+    case emptyData
+}
+
 class Service {
     
-    typealias QuizCompletion = (Quiz?, Error?) -> Void
+    typealias QuizCompletion = (Quiz?, ServiceError?) -> Void
     
     func fetchQuiz(with completionHandler: @escaping QuizCompletion) {
-        let url = URL(string: "https://codechallenge.arctouch.com/quiz/1")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        
+        guard let baseURL = URL(string: "https://codechallenge.arctouch.com/quiz/1") else {
+            completionHandler(nil, ServiceError.endpointInvalid)
+            
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: baseURL) { data, response, error in
+            
             if let error = error {
-                print(error)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
+                completionHandler(nil, ServiceError.errorMessage(message: error.localizedDescription))
                 
                 return
+            }
+            
+            guard let successfullHTTPResponseStatusCode = response as? HTTPURLResponse,
+                (200...299).contains(successfullHTTPResponseStatusCode.statusCode) else {
+                
+                    
+                    completionHandler(nil, ServiceError.unknown)
+                    
+                    return
             }
             
             do {
@@ -39,13 +59,16 @@ class Service {
                         }
                     }
                     
+                } else {
+                    completionHandler(nil, ServiceError.emptyData)
                 }
                 
             } catch {
-                completionHandler(nil, error)
+                completionHandler(nil, ServiceError.errorMessage(message: error.localizedDescription))
             }
             
         }
+        
         task.resume()
     }
 }

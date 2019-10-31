@@ -8,21 +8,23 @@
 
 import UIKit
 
-extension Notification {
-    static let timerDidFinish = Notification.Name("TimerDidFinish")
-}
-
-
 class CounterAndTimerView: XibLoader {
 
-    @IBOutlet weak var startResetButton: UIButton!
-    @IBOutlet weak var wordsCounterLabel: UILabel!
-    @IBOutlet weak var countdownTimerLabel: UILabel! {
+    // MARK: - Properties
+    @IBOutlet private weak var startResetButton: UIButton!
+    @IBOutlet private weak var wordsCounterLabel: UILabel!
+    @IBOutlet private weak var countdownTimerLabel: UILabel! {
         didSet {
             countdownTimerLabel.font = UIFont.monospacedSystemFont(ofSize: countdownTimerLabel.font.pointSize, weight: .bold)
         }
     }
 
+    private var buttonTitle: String? {
+        didSet {
+            startResetButton.setTitle(buttonTitle, for: .normal)
+        }
+    }
+    
     var viewModel: CounterAndTimerViewModel? {
         didSet {
             
@@ -31,6 +33,12 @@ class CounterAndTimerView: XibLoader {
         }
     }
     
+    // MARK: - View Lifecycle
+    override func didLoadViewFromXib() {
+        NotificationCenter.default.addObserver(self, selector: #selector(resetTimer), name: .resetTimer, object: nil)
+    }
+    
+    // MARK: - Setup UI
     private func updateUI() {
         DispatchQueue.main.async {
             self.startResetButton.setTitle(self.viewModel?.buttonTitle, for: .normal)
@@ -39,30 +47,20 @@ class CounterAndTimerView: XibLoader {
         }
     }
     
-    private var buttonTitle: String? {
-        didSet {
-            startResetButton.setTitle(buttonTitle, for: .normal)
-        }
-    }
-
+    // MARK: - Start/Reset Timer
     @IBAction func startResetTimer(sender: UIButton) {
         viewModel?.handleTimer()
     }
 
-    override func didLoadViewFromXib() {
-        NotificationCenter.default.addObserver(self, selector: #selector(resetTimer), name: Notification.Name("ResetTimer"), object: nil)
-    }
-
-    
     @objc private func resetTimer() {
         viewModel?.resetTimer()
     }
 }
 
+// MARK: - Counter and Timer View Model Delegate
 extension CounterAndTimerView: CounterAndTimerViewModelDelegate {
     func timerDidFinish() {
-        NotificationCenter.default.post(name: Notification.Name("TimerDidFinish"), object: nil)
-        
+        NotificationCenter.default.post(name: .timerDidFinish, object: nil)
     }
     
     func reloadUI() {
@@ -70,6 +68,6 @@ extension CounterAndTimerView: CounterAndTimerViewModelDelegate {
     }
     
     func userDidResetTimer() {
-        NotificationCenter.default.post(name: Notification.Name("UserDidResetTimer"), object: nil)
+        NotificationCenter.default.post(name: .userDidResetTimer, object: nil)
     }
 }
