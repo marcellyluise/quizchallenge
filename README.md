@@ -1,6 +1,9 @@
 # quizchallenge
 A quiz playing words 
 
+# Run the app
+To run the app you just need to run it (command + r) on a Simulator or in a real device. I would recommend to run on any iPhone X simulator/device or later.
+
 # MVP Version 1.0
 In attempt to follow the requirements and best practices I believe I may have achieved it. But in software development there's always room for improvements. 
 
