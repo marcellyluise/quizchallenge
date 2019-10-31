@@ -10,6 +10,18 @@ import UIKit
 
 class QuizActivityIndicatorView: XibLoader {
     
+    @IBOutlet private weak var roundedGrayBackgroundView: UIView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
-
+    func shouldStartActivityIndicator(start: Bool) {
+        start ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+    
+    override func didLoadViewFromXib() {
+        roundedGrayBackgroundView.rounded(with: 24.0)
+        backgroundColor = UIColor.white.withAlphaComponent(0.75)
+        activityIndicator.hidesWhenStopped = true
+    
+        tag = 42
+    }
 }

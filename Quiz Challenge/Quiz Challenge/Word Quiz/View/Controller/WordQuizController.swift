@@ -43,13 +43,30 @@ class WordQuizController: UIViewController {
     private func setupUI() {
         setupTableView()
         updateCounterAndTimerViewModel()
+        setupTextField()
     }
     
-
     private func setupTableView() {
         tableView.tableFooterView = UIView()
         
         tableView.register(cellType: WordsTableViewCell.self)
+    }
+    
+    private func setupTextField() {
+        inputTextField.rounded(with: 4.0)
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        paddingView.backgroundColor = .clear
+        
+        inputTextField.leftView = paddingView
+        inputTextField.leftViewMode = .always
+    }
+    
+    private func showHiddenComponents() {
+        
+        UIView.animate(withDuration: 0.3) {
+            self.inputTextField.isHidden = false
+        }
     }
     
     private func updateCounterAndTimerViewModel() {
@@ -125,8 +142,12 @@ class WordQuizController: UIViewController {
     
     @objc private func userDidResetTimer() {
         viewModel.userDidResetTimer()
+        cleanInput()
     }
 
+    private func cleanInput() {
+        self.inputTextField.text = nil
+    }
     
 }
 
@@ -153,8 +174,20 @@ extension WordQuizController {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             
             UIView.animate(withDuration: 0.3) {
-                let safeAreaHeight: CGFloat = 34.0
-                self.bottomConstraint.constant = (keyboardSize.height - safeAreaHeight) * (-1)
+                
+                let currentiPhoneModel = UIDevice.current.name
+                
+                if currentiPhoneModel.contains("iPhone X") || currentiPhoneModel.contains("iPhone 11") {
+                    let safeArea: CGFloat = 34.0
+                    let keyboardHeight: CGFloat = keyboardSize.height
+                    self.bottomConstraint.constant = (keyboardHeight - safeArea) * (-1)
+                } else {
+                    let counterTimerHeight: CGFloat = self.counterAndTimerView.frame.height
+                    let safeArea: CGFloat = 34.0
+                    let keyboardHeight: CGFloat = keyboardSize.origin.y
+                    self.bottomConstraint.constant = (keyboardHeight - safeArea - counterTimerHeight) * (-1)
+                }
+                
             }
         }
     }
@@ -241,9 +274,13 @@ extension WordQuizController: WordQuizViewModelDelegate {
     // MARK: Delegate
     func isLoading(isLoading: Bool) {
         DispatchQueue.main.async {
-            self.questionLabel.text = self.viewModel.question
-            self.updateCounterAndTimerViewModel()
-            self.tableView.reloadData()
+            if isLoading {
+                self.view.lockView(with: 0.2)
+            } else {
+                self.questionLabel.text = self.viewModel.question
+                self.showHiddenComponents()
+                self.view.unlockView(with: 0.3)
+            }
         }
     }
 }
@@ -257,7 +294,7 @@ extension WordQuizController: UITextFieldDelegate {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.inputTextField.text = nil
+            self.cleanInput()
         }
         
         return true

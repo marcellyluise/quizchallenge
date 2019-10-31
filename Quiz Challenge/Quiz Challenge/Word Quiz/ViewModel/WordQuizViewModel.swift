@@ -19,7 +19,6 @@ protocol WordQuizViewModelDelegate: class {
     func shouldPauseTimer()
     func shouldUpdateWordsCounter()
     func userDidResetQuiz()
-
 }
 
 class WordQuizViewModel {
@@ -36,7 +35,7 @@ class WordQuizViewModel {
     }
     
     var expectedNumberOfWords: Int {
-        return 10
+        return quiz?.answer?.count ?? 50
     }
     
     private(set) var shouldResetTimer: Bool = false
@@ -45,8 +44,13 @@ class WordQuizViewModel {
     weak var delegate: WordQuizViewModelDelegate?
     
     init(delegate: WordQuizViewModelDelegate?) {
-        self.fetchWordQuiz()
         self.delegate = delegate
+        
+        DispatchQueue.main.async {
+            self.delegate?.isLoading(isLoading: true)
+        }
+        
+        Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(fetchWordQuiz), userInfo: nil, repeats: false)
     }
     
 }
@@ -121,15 +125,17 @@ extension WordQuizViewModel {
 // MARK: - Service
 extension WordQuizViewModel {
     
-    private func fetchWordQuiz() {
-        
-        delegate?.isLoading(isLoading: true)
+    @objc private func fetchWordQuiz() {
+//        DispatchQueue.main.async {
+//            self.delegate?.isLoading(isLoading: true)
+//        }
         
         Service().fetchQuiz { (fetchedQuiz, error) in
             
-            self.quiz = fetchedQuiz
-            
-            self.delegate?.isLoading(isLoading: false)
+            DispatchQueue.main.async {
+                self.quiz = fetchedQuiz
+                self.delegate?.isLoading(isLoading: false)
+            }
         }
     }
     

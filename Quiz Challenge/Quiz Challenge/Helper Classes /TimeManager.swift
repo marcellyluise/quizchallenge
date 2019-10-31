@@ -15,7 +15,7 @@ class TimerManager {
     
     private var timer: Timer?
     private var timeLimit: TimeInterval = 0
-    private var timeElapsed: TimeInterval = 0
+    private var timeElapsed: TimeInterval = Double.fiveMinutes
     
     var currentTimerValue: TimeInterval {
         return timeElapsed

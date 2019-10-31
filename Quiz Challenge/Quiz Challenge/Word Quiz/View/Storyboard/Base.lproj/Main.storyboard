@@ -18,16 +18,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="bn7-Mo-Ebf">
-                                <rect key="frame" x="16" y="60" width="382" height="101"/>
+                                <rect key="frame" x="16" y="60" width="382" height="0.0"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QA-QG-jEf">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="41"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QA-QG-jEf">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Insert Word" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ygu-M9-Ky2">
-                                        <rect key="frame" x="0.0" y="57" width="382" height="44"/>
+                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Insert Word" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ygu-M9-Ky2">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="44"/>
                                         <color key="backgroundColor" name="Gray#F5F5F5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="P4Y-Mw-r9Y"/>
@@ -43,7 +43,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Npy-b3-V7R">
-                                <rect key="frame" x="0.0" y="177" width="414" height="569"/>
+                                <rect key="frame" x="0.0" y="76" width="414" height="670"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="rpT-sW-3q1" id="WwP-4n-fYr"/>
